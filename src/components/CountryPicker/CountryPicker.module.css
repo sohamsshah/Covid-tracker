@@ -4,3 +4,13 @@
     width: 30%;
     margin-bottom: 40px !important;
 }
+
+@media only screen and (max-width: 600px) {
+    .formControl{
+        display: flex;
+        justify-content:center;
+        width: 90%;
+        margin-bottom: 40px !important;
+    }
+    
+  }
