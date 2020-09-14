@@ -38,3 +38,21 @@ export const fetchCountries = async () => {
 
     }
 }
+
+export const fetchCountryData = async (country) => {
+    try{
+        if(country === "global"){
+        const {data: {confirmed,recovered, deaths,lastUpdate}} = await axios.get(url); 
+        return {confirmed, recovered, deaths, lastUpdate};  
+        }
+        else
+        {
+            const {data: {confirmed,recovered, deaths,lastUpdate}} = await axios.get(url+`/countries/${country}`);
+            return {confirmed, recovered, deaths, lastUpdate};
+        }
+        
+    }
+    catch (error){
+
+    }
+}

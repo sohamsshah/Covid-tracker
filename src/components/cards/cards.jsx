@@ -3,7 +3,23 @@ import {Card, CardContent, Typography, Grid} from '@material-ui/core'
 import CountUp from 'react-countup';
 import cx from 'classnames'
 import styles from './cards.module.css'
+
+
+
+
 const Cards = ({data: {confirmed, recovered, deaths, lastUpdate }}) => {
+    handleBigValues = (val) => {
+        if(val < 1000){
+            return [val,""];
+        }
+        else if(val >= 1000 && val < 1000000){
+            return [val/1000, "K"];
+        }
+        else{
+            return [val/1000000, "M"];
+        }
+    
+    }
     if(!confirmed){
         return 'Loading...';
     }
@@ -16,13 +32,13 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate }}) => {
                             Infected
                         </Typography>
                         <Typography variant = "h5">
-                        <CountUp start = {0} end = {confirmed.value} duration = {1.5} seperator = "," /> 
+                        <CountUp start = {0} end = {handleBigValues(confirmed)[0]} duration = {1.5} delay = {0.5} suffix = {handleBigValues(confirmed)[1]} seperator = "," /> 
                         </Typography>
                         <Typography color="textSecondary" gutterBottom>
                            {new Date(lastUpdate).toDateString()} 
                         </Typography>
                         <Typography variant="body2">
-                            Number of active cases of Covid-19
+                            Number of <b>Active cases</b> of Covid-19
                         </Typography>
                         
                     </CardContent>
@@ -33,13 +49,13 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate }}) => {
                             Recovered
                         </Typography>
                         <Typography variant = "h5">
-                        <CountUp start = {0} end = {recovered.value} duration = {1.5} seperator = "," /> 
+                        <CountUp start = {0} end = {recovered.value >= 1000 ? recovered.value/1000 : recovered.value} duration = {1.5} delay = {0.5} suffix = {"K"}seperator = "," /> 
                         </Typography>
                         <Typography color="textSecondary" gutterBottom>
                            {new Date(lastUpdate).toDateString()} 
                         </Typography>
                         <Typography variant="body2">
-                            Number of recoveries cases of Covid-19
+                            Number of <b>Recovery cases</b> of Covid-19
                         </Typography>
                         
                     </CardContent>
@@ -50,13 +66,13 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate }}) => {
                             Deaths
                         </Typography>
                         <Typography variant = "h5">
-                        <CountUp start = {0} end = {deaths.value} duration = {1.5} seperator = "," /> 
+                        <CountUp start = {0} end = {deaths.value >= 1000 ? deaths.value/1000 : deaths.value} duration = {1.5} delay = {0.5} suffix = {"K"}seperator = "," /> 
                         </Typography>
                         <Typography color="textSecondary" gutterBottom>
                            {new Date(lastUpdate).toDateString()} 
                         </Typography>
                         <Typography variant="body2">
-                            Number of Deaths cases of Covid-19
+                            Number of <b>Deaths cases</b> of Covid-19
                         </Typography>
                         
                     </CardContent>

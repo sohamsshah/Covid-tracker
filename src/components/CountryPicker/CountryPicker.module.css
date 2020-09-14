@@ -1,5 +1,6 @@
 .formControl{
     display: flex;
     justify-content:center;
-    width: 80% !important;
+    width: 30%;
+    margin-bottom: 40px !important;
 }
