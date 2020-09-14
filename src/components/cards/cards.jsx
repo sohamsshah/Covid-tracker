@@ -4,25 +4,31 @@ import CountUp from 'react-countup';
 import cx from 'classnames'
 import styles from './cards.module.css'
 
+function handleBigValues(val) {
+    if(val < 1000){
+        return [val,""];
+    }
+    if (val >= 1000 && val < 1000000){
+        return [val/1000, "K"];
+    }
+    if(val > 1000000){
+        return [val/1000000, "M"];
+    }
+}
+
+
 
 
 
 const Cards = ({data: {confirmed, recovered, deaths, lastUpdate }}) => {
-    handleBigValues = (val) => {
-        if(val < 1000){
-            return [val,""];
-        }
-        else if(val >= 1000 && val < 1000000){
-            return [val/1000, "K"];
-        }
-        else{
-            return [val/1000000, "M"];
-        }
     
-    }
     if(!confirmed){
         return 'Loading...';
     }
+    const confirmed_scaled = handleBigValues(confirmed.value);
+    const recovered_scaled = handleBigValues(recovered.value);
+    const death_scaled = handleBigValues(deaths.value);
+    console.log(confirmed_scaled[1]);
     return (
         <div className= {styles.container}>
             <Grid container spacing={3} justify="center">
@@ -32,7 +38,7 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate }}) => {
                             Infected
                         </Typography>
                         <Typography variant = "h5">
-                        <CountUp start = {0} end = {handleBigValues(confirmed)[0]} duration = {1.5} delay = {0.5} suffix = {handleBigValues(confirmed)[1]} seperator = "," /> 
+                        <CountUp start = {0} end = {confirmed_scaled[0]} decimals = {2}  duration = {1.5} delay = {0.5} suffix = {confirmed_scaled[1]} seperator = "," /> 
                         </Typography>
                         <Typography color="textSecondary" gutterBottom>
                            {new Date(lastUpdate).toDateString()} 
@@ -49,7 +55,7 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate }}) => {
                             Recovered
                         </Typography>
                         <Typography variant = "h5">
-                        <CountUp start = {0} end = {recovered.value >= 1000 ? recovered.value/1000 : recovered.value} duration = {1.5} delay = {0.5} suffix = {"K"}seperator = "," /> 
+                        <CountUp start = {0} end = {recovered_scaled[0]} decimals = {2} duration = {1.5} delay = {0.5} suffix = {recovered_scaled[1]} seperator = "," /> 
                         </Typography>
                         <Typography color="textSecondary" gutterBottom>
                            {new Date(lastUpdate).toDateString()} 
@@ -66,7 +72,7 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate }}) => {
                             Deaths
                         </Typography>
                         <Typography variant = "h5">
-                        <CountUp start = {0} end = {deaths.value >= 1000 ? deaths.value/1000 : deaths.value} duration = {1.5} delay = {0.5} suffix = {"K"}seperator = "," /> 
+                        <CountUp start = {0} end = {death_scaled[0]} decimals = {2} duration = {1.5} delay = {0.5} suffix = {death_scaled[1]} seperator = "," /> 
                         </Typography>
                         <Typography color="textSecondary" gutterBottom>
                            {new Date(lastUpdate).toDateString()} 
